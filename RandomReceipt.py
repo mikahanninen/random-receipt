@@ -1,3 +1,4 @@
+import json
 from PIL import Image, ImageDraw, ImageFont
 import random
 
@@ -75,5 +76,10 @@ def generate_random_receipts(num_receipts:int=5, name_prefix:str = 'receipt_'):
         # Generate official receipt image
         official_img = generate_official_receipt_image(entries, total_price)
 
-        #official_img.show()
         official_img.save(f"{name_prefix}{index+1}.png")
+        with open(f"{name_prefix}{index+1}.json", "w") as values_out:
+            information = {
+                "total": total_price,
+                "entries": entries,
+            }
+            values_out.write(json.dumps(information, indent=4))
